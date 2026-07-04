@@ -107,6 +107,17 @@ defmodule Scheduler.Runner do
   end
 
   @impl true
+  def handle_info({:retry, job_id}, state) do
+    case Scheduler.Store.get(job_id) do
+      {:ok, job} when job.status == :retrying ->
+        {_ref, new_state} = start_job(job, state)
+        {:noreply, new_state}
+
+      _ ->
+        {:noreply, state}
+    end
+  end
+
   def handle_info(_msg, state) do
     {:noreply, state}
   end
@@ -202,15 +213,4 @@ defmodule Scheduler.Runner do
     end
   end
 
-  @impl true
-  def handle_info({:retry, job_id}, state) do
-    case Scheduler.Store.get(job_id) do
-      {:ok, job} when job.status == :retrying ->
-        {_ref, new_state} = start_job(job, state)
-        {:noreply, new_state}
-
-      _ ->
-        {:noreply, state}
-    end
-  end
 end

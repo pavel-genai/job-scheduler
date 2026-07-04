@@ -125,18 +125,6 @@ defmodule Scheduler.DAG do
 
   defp do_topological_sort(graph) do
     # Kahn's algorithm
-    in_degree =
-      Enum.reduce(graph, %{}, fn {node, _deps}, acc ->
-        Map.put_new(acc, node, 0)
-      end)
-
-    in_degree =
-      Enum.reduce(graph, in_degree, fn {_node, deps}, acc ->
-        Enum.reduce(deps, acc, fn dep, a ->
-          Map.update(a, dep, 1, &(&1 + 1))
-        end)
-      end)
-
     # Note: in this graph, edges go from dependency -> dependent,
     # but our graph stores deps (incoming edges), so we need to reverse.
     # Actually, we store {node => [deps]}, meaning node depends on deps.
