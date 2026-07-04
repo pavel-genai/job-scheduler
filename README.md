@@ -1,5 +1,7 @@
 # JobScheduler
 
+[![CI](https://github.com/pavel-genai/job-scheduler/actions/workflows/ci.yml/badge.svg)](https://github.com/pavel-genai/job-scheduler/actions/workflows/ci.yml)
+
 An Elixir/OTP distributed job scheduler with DAG dependencies, configurable retry policies, and cron-based triggers.
 
 ## Features
