@@ -8,6 +8,7 @@ defmodule Scheduler.Router do
   - GET    /jobs/:id  - Get a specific job
   - DELETE /jobs/:id  - Delete a job
   - GET    /status    - System status overview
+  - GET    /health    - Health check
   """
 
   use Plug.Router
@@ -92,6 +93,11 @@ defmodule Scheduler.Router do
     }
 
     send_json(conn, 200, status)
+  end
+
+  # GET /health - Health check
+  get "/health" do
+    send_json(conn, 200, Jason.OrderedObject.new(status: "ok", service: "job-scheduler"))
   end
 
   match _ do
