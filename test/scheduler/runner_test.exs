@@ -60,7 +60,7 @@ defmodule Scheduler.RunnerTest do
         id: "runner-retry",
         name: "flaky",
         module: "Scheduler.TestHelper",
-        function: "always_fail",
+        function: "exit_fail",
         args: [],
         retry_policy: %{"max_retries" => 2, "backoff_ms" => 10}
       })
