@@ -98,6 +98,16 @@ defmodule Scheduler.RouterTest do
     end
   end
 
+  describe "GET /health" do
+    test "returns health check response" do
+      conn = conn(:get, "/health") |> Router.call(@opts)
+
+      assert conn.status == 200
+      assert get_resp_header(conn, "content-type") == ["application/json; charset=utf-8"]
+      assert Jason.decode!(conn.resp_body) == %{"status" => "ok", "service" => "job-scheduler"}
+    end
+  end
+
   describe "POST /jobs with cron" do
     test "creates a job with valid cron expression" do
       conn =
